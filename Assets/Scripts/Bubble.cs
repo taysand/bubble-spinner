@@ -18,7 +18,6 @@ public class Bubble : MonoBehaviour {
 		color = (BubbleColor) Enum.ToObject(typeof(BubbleColor), UnityEngine.Random.Range (0, numBubbleColors));
 		bubbleSprites = Resources.LoadAll<Sprite> (bubbleSpriteFile);
 		GetComponent<SpriteRenderer> ().sprite = bubbleSprites[(int) color];
-		// SwapGravity();
 	}
 	
 	void Update () {
@@ -31,23 +30,10 @@ public class Bubble : MonoBehaviour {
 		return color;
 	}
 
-	private void SwapGravity() {
-		if (grouped) {
-			GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
-		} else {
-			GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-		}
-	}
-
 	private void Leave() {
 		GetComponent<CircleCollider2D>().enabled = false;
 		GetComponent<HingeJoint2D>().enabled = false;
 		leaving = false;
-		StartCoroutine(Vanish());
-	}
-
-	private IEnumerator Vanish() {
-		yield return new WaitForSeconds (leaveDelay);
-		gameObject.SetActive(false);
+		Destroy(gameObject, 3f); //TODO: object pool
 	}
 }
