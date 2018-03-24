@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 
 public class Bubble : MonoBehaviour {
 	public enum BubbleColor {Blue, Green, Red, Purple};
@@ -9,6 +10,8 @@ public class Bubble : MonoBehaviour {
 
 	private BubbleColor color;
 	public bool grouped = true;
+	public bool leaving = false;
+	private float leaveDelay = 6f;
 	
 	void Start () {
 		numBubbleColors = Enum.GetNames(typeof(BubbleColor)).Length;
@@ -19,7 +22,9 @@ public class Bubble : MonoBehaviour {
 	}
 	
 	void Update () {
-		
+		if (leaving) {
+			Leave();
+		}
 	}
 
 	public BubbleColor GetColor() {
@@ -32,5 +37,17 @@ public class Bubble : MonoBehaviour {
 		} else {
 			GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 		}
+	}
+
+	private void Leave() {
+		GetComponent<CircleCollider2D>().enabled = false;
+		GetComponent<HingeJoint2D>().enabled = false;
+		leaving = false;
+		StartCoroutine(Vanish());
+	}
+
+	private IEnumerator Vanish() {
+		yield return new WaitForSeconds (leaveDelay);
+		gameObject.SetActive(false);
 	}
 }
