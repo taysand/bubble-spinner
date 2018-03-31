@@ -12,6 +12,8 @@ public class Bubble : MonoBehaviour {
 	public bool grouped = true;
 	public bool leaving = false;
 	private float leaveDelay = 6f;
+
+	private static float diameter = .85f;
 	
 	void Start () {
 		numBubbleColors = Enum.GetNames(typeof(BubbleColor)).Length;
@@ -35,5 +37,9 @@ public class Bubble : MonoBehaviour {
 		GetComponent<HingeJoint2D>().enabled = false;
 		leaving = false;
 		Destroy(gameObject, 3f); //TODO: object pool
+	}
+
+	public static float GetDiameter() {
+		return diameter;
 	}
 }
