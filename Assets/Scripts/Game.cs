@@ -7,7 +7,7 @@ public class Game : MonoBehaviour {
 	public Bubble bubblePrefab;
 	public GameObject mass;
 
-	private int[] numBubblesPerRow = new int[] { 6, 12, 19 };
+	private int[] numBubblesPerRow = new int[] { 5};//, 11};//, 19 };
 	private int rowCount = 0;
 	private float radius;
 
@@ -32,13 +32,13 @@ public class Game : MonoBehaviour {
 				Bubble bubble = Instantiate (bubblePrefab) as Bubble;
 				HingeJoint2D joint = bubble.GetComponent<HingeJoint2D> ();
 				joint.connectedBody = mass.GetComponent<Rigidbody2D> ();
-				joint.connectedAnchor = new Vector2 (0, 0);
+				joint.connectedAnchor = new Vector2 (x, y);
 				bubble.transform.parent = mass.transform;
 
 				bubble.transform.position = new Vector3 (x, y, 0);
 			}
 			rowCount++;
-			radius += Bubble.GetDiameter ();
+			radius += Bubble.GetDiameter () + .04f;
 		}
 	}
 }

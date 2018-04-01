@@ -13,7 +13,7 @@ public class Bubble : MonoBehaviour {
 	public bool leaving = false;
 	private float leaveDelay = 6f;
 
-	private static float diameter = .85f;
+	private static float diameter = .86f;
 	
 	void Start () {
 		numBubbleColors = Enum.GetNames(typeof(BubbleColor)).Length;
