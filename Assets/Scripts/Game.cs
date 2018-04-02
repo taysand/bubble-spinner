@@ -5,11 +5,16 @@ using UnityEngine;
 public class Game : MonoBehaviour {
 
 	public Bubble bubblePrefab;
+	public static GameObject staticMass;
 	public GameObject mass;
 
 	private int[] numBubblesPerRow = new int[] { 5};//, 11};//, 19 };
 	private int rowCount = 0;
 	private float radius;
+
+	void Awake() {
+		staticMass = mass;
+	}
 
 	void Start () {
 		// GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -30,15 +35,14 @@ public class Game : MonoBehaviour {
 				float y = Mathf.Cos (theta) * radius;
 
 				Bubble bubble = Instantiate (bubblePrefab) as Bubble;
-				HingeJoint2D joint = bubble.GetComponent<HingeJoint2D> ();
-				joint.connectedBody = mass.GetComponent<Rigidbody2D> ();
-				joint.connectedAnchor = new Vector2 (x, y);
-				bubble.transform.parent = mass.transform;
-
+				// Debug.Log("bubble instantiated");
 				bubble.transform.position = new Vector3 (x, y, 0);
+				bubble.AddToMass();
+				
 			}
 			rowCount++;
 			radius += Bubble.GetDiameter () + .04f;
+			// Debug.Log("end of game start");
 		}
 	}
 }
