@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 
@@ -12,14 +13,37 @@ public class Game : MonoBehaviour {
 	private int rowCount = 0;
 	private float radius;
 
+	private static int score = 0;
+	private static int level = 1;
+	private const int startingPointsPerBubble = 10;
+	public Text publicScoreText;
+	private static Text scoreText;
+	public Text levelText;
+
 	void Awake() {
 		staticMass = mass;
+		scoreText = publicScoreText;
 	}
 
 	void Start () {
 		// GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 		radius = Bubble.GetDiameter ();
+		UpdateScoreText();
 		StartLevel ();
+		UpdateLevelText();
+	}
+
+	public static void GainPoints() {
+		score += startingPointsPerBubble * level;
+		UpdateScoreText();
+	}
+
+	private static void UpdateScoreText() {
+		scoreText.text = "Score: " + score;
+	}
+
+	private void UpdateLevelText() {
+		levelText.text = "Level: " + level;
 	}
 
 	void Update () {
