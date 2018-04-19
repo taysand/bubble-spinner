@@ -19,6 +19,7 @@ public class Group : MonoBehaviour {
 		if (Complete() && !bubble.IsOriginal()) {
 			foreach (Bubble b in group) {
 				b.SetToLeave();
+				Game.GainPoints();
 			}
 		}
 	}
