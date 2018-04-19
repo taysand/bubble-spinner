@@ -25,6 +25,7 @@ public class Game : MonoBehaviour {
 	private static Text livesText;
 
 	private static int lives = 8;
+	private static int maxLives = 8;
 
 	void Awake() {
 		staticMass = mass;
@@ -43,6 +44,10 @@ public class Game : MonoBehaviour {
 
 	public static void LoseLife() {
 		lives--;
+		if (lives <= 0) {
+			//TODO: more bubbles 
+			lives = maxLives;
+		}
 		UpdateLivesText();
 	}
 
