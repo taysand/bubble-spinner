@@ -19,6 +19,9 @@ public class Bubble : MonoBehaviour {
 	private bool inGroup = false;
 	private Group group;
 
+	private int bounceCount = 0;
+	private static int maxCount = 6;
+
 	void Awake() {
 		joint = GetComponent<HingeJoint2D> ();
 		numBubbleColors = Enum.GetNames (typeof (BubbleColor)).Length;
@@ -79,6 +82,12 @@ public class Bubble : MonoBehaviour {
 					bubble.AddToGroup(group);
 				}
 			}
+		} else if (other.gameObject.tag == "wall") {
+			if (++bounceCount >= maxCount) {
+				SetToLeave();
+				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
+			}
+			Debug.Log(bounceCount);
 		}
 	}
 
