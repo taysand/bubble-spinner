@@ -16,21 +16,38 @@ public class Game : MonoBehaviour {
 	private static int score = 0;
 	private static int level = 1;
 	private const int startingPointsPerBubble = 10;
+
+	//text
 	public Text publicScoreText;
 	private static Text scoreText;
 	public Text levelText;
+	public Text publicLivesText;
+	private static Text livesText;
+
+	private static int lives = 8;
 
 	void Awake() {
 		staticMass = mass;
 		scoreText = publicScoreText;
+		livesText = publicLivesText;
 	}
 
 	void Start () {
 		// GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 		radius = Bubble.GetDiameter ();
-		UpdateScoreText();
 		StartLevel ();
+		UpdateScoreText();
 		UpdateLevelText();
+		UpdateLivesText();
+	}
+
+	public static void LoseLife() {
+		lives--;
+		UpdateLivesText();
+	}
+
+	private static void UpdateLivesText() {
+		livesText.text = "Lives: " + lives;
 	}
 
 	public static void GainPoints() {

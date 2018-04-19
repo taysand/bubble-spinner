@@ -86,6 +86,7 @@ public class Bubble : MonoBehaviour {
 			if (++bounceCount >= maxCount) {
 				SetToLeave();
 				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
+				Game.LoseLife();
 			}
 			Debug.Log(bounceCount);
 		}
