@@ -23,7 +23,10 @@ public class Game : MonoBehaviour {
 	public Text levelText;
 	public Text publicLivesText;
 	private static Text livesText;
+	public Text publicDeadText;
+	private static Text deadText;
 
+	//lives
 	private static int lives = 8;
 	private static int maxLives = 8;
 
@@ -31,6 +34,8 @@ public class Game : MonoBehaviour {
 		staticMass = mass;
 		scoreText = publicScoreText;
 		livesText = publicLivesText;
+		publicDeadText.enabled = false;
+		deadText = publicDeadText;
 	}
 
 	void Start () {
@@ -53,6 +58,11 @@ public class Game : MonoBehaviour {
 
 	private static void UpdateLivesText() {
 		livesText.text = "Lives: " + lives;
+	}
+
+	public static void EndGame() {
+		deadText.enabled = true;
+		//TODO: no more shooting or physics or anything
 	}
 
 	public static void GainPoints() {
