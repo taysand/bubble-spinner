@@ -8,7 +8,7 @@ public class Game : MonoBehaviour {
 	public static GameObject staticMass;
 	public GameObject mass;
 
-	private int[] numBubblesPerRow = new int[] { 5};//, 11};//, 19 };
+	private int[] numBubblesPerRow = new int[] { 6};//, 11, 19 };
 	private int rowCount = 0;
 	private float radius;
 
@@ -38,6 +38,7 @@ public class Game : MonoBehaviour {
 				// Debug.Log("bubble instantiated");
 				bubble.transform.position = new Vector3 (x, y, 0);
 				bubble.AddToMass();
+				bubble.SetOriginal();
 				
 			}
 			rowCount++;
