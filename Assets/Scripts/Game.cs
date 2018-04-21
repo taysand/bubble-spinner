@@ -9,6 +9,8 @@ public class Game : MonoBehaviour {
 	public static GameObject staticMass;
 	public GameObject mass;
 
+	private static List<Bubble> allBubbles;
+
 	private int[] numBubblesPerRow = new int[] { 6};//, 11, 19 };
 	private int rowCount = 0;
 	private float radius;
@@ -36,6 +38,7 @@ public class Game : MonoBehaviour {
 		livesText = publicLivesText;
 		publicDeadText.enabled = false;
 		deadText = publicDeadText;
+		allBubbles = new List<Bubble>();
 	}
 
 	void Start () {
@@ -45,6 +48,10 @@ public class Game : MonoBehaviour {
 		UpdateScoreText();
 		UpdateLevelText();
 		UpdateLivesText();
+	}
+
+	public static void AddToBubbleList(Bubble b) {
+		allBubbles.Add(b);
 	}
 
 	public static void LoseLife() {
@@ -62,7 +69,10 @@ public class Game : MonoBehaviour {
 
 	public static void EndGame() {
 		deadText.enabled = true;
-		//TODO: no more shooting or physics or anything
+		foreach (Bubble bubble in allBubbles)
+		{
+			bubble.Leave();
+		}
 	}
 
 	public static void GainPoints() {

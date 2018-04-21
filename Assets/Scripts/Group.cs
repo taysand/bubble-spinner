@@ -18,7 +18,7 @@ public class Group : MonoBehaviour {
 		// Debug.Log("count is " + count);
 		if (Complete() && !bubble.IsOriginal()) {
 			foreach (Bubble b in group) {
-				b.SetToLeave();
+				b.Leave();
 				Game.GainPoints();
 			}
 		}
