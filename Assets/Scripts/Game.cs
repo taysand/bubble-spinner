@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 
-	public Bubble bubblePrefab;
+	public Bubble publicBubblePrefab;
+	public static Bubble bubblePrefab;
 	public static GameObject staticMass;
 	public GameObject mass;
 
@@ -39,6 +40,7 @@ public class Game : MonoBehaviour {
 		publicDeadText.enabled = false;
 		deadText = publicDeadText;
 		allBubbles = new List<Bubble>();
+		bubblePrefab = publicBubblePrefab;
 	}
 
 	void Start () {
@@ -100,9 +102,7 @@ public class Game : MonoBehaviour {
 				float x = Mathf.Sin (theta) * radius;
 				float y = Mathf.Cos (theta) * radius;
 
-				Bubble bubble = Instantiate (bubblePrefab) as Bubble;
-				// Debug.Log("bubble instantiated");
-				bubble.transform.position = new Vector3 (x, y, 0);
+				Bubble bubble = Bubble.NewBubble(x, y);
 				bubble.AddToMass();
 				bubble.SetOriginal();
 				

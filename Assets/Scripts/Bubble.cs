@@ -21,7 +21,7 @@ public class Bubble : MonoBehaviour {
 	private int bounceCount = 0;
 	private static int maxCount = 6;
 
-	void Awake() {
+	void Awake () {
 		joint = GetComponent<HingeJoint2D> ();
 		numBubbleColors = Enum.GetNames (typeof (BubbleColor)).Length;
 		color = (BubbleColor) Enum.ToObject (typeof (BubbleColor), UnityEngine.Random.Range (0, numBubbleColors));
@@ -33,7 +33,7 @@ public class Bubble : MonoBehaviour {
 		if (!inCenter) {
 			joint.enabled = false;
 		}
-		Game.AddToBubbleList(this);
+		Game.AddToBubbleList (this);
 	}
 
 	public BubbleColor GetColor () {
@@ -53,43 +53,43 @@ public class Bubble : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D other) {
 		Bubble bubble = other.gameObject.GetComponent<Bubble> ();
 		if (bubble != null) {
-			AddToMass();
+			AddToMass ();
 			// Debug.Log("color is " + color + " and other color is " + bubble.color);
 			if (bubble.color == color) {
 				// Debug.Log("doing group stuff");
-				if (!bubble.InGroup() && !inGroup) {
+				if (!bubble.InGroup () && !inGroup) {
 					// Debug.Log("neither has a group");
-					Group g = new Group();
-					bubble.AddToGroup(g);
-					AddToGroup(g);
-				} else if (bubble.InGroup() && !inGroup) {
+					Group g = new Group ();
+					bubble.AddToGroup (g);
+					AddToGroup (g);
+				} else if (bubble.InGroup () && !inGroup) {
 					// Debug.Log("one has a group");
-					AddToGroup(bubble.group);
-				} else if (!bubble.InGroup() && inGroup) {
+					AddToGroup (bubble.group);
+				} else if (!bubble.InGroup () && inGroup) {
 					// Debug.Log("the other has a group");
-					bubble.AddToGroup(group);
+					bubble.AddToGroup (group);
 				}
 			}
 		} else if (other.gameObject.tag == "wall") {
 			if (inCenter) {
-				Game.EndGame();
+				Game.EndGame ();
 			} else if (++bounceCount >= maxCount) {
-				Leave();
-				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
-				Game.LoseLife();
+				Leave ();
+				GetComponent<Rigidbody2D> ().gravityScale = 2.5f;
+				Game.LoseLife ();
 			}
 		} else if (other.gameObject.tag == "center") {
-			AddToMass();
+			AddToMass ();
 		}
 	}
 
-	private void AddToGroup(Group g) {
-		g.AddToGroup(this);
+	private void AddToGroup (Group g) {
+		g.AddToGroup (this);
 		group = g;
 		inGroup = true;
 	}
 
-	public bool InGroup() {
+	public bool InGroup () {
 		return inGroup;
 	}
 
@@ -104,11 +104,17 @@ public class Bubble : MonoBehaviour {
 		inCenter = true;
 	}
 
-	public void SetOriginal() {
+	public void SetOriginal () {
 		original = true;
 	}
 
-	public bool IsOriginal() {
+	public bool IsOriginal () {
 		return original;
+	}
+
+	public static Bubble NewBubble (float x, float y) {
+		Bubble bubble = Instantiate (Game.bubblePrefab) as Bubble;
+		bubble.transform.position = new Vector3 (x, y, 0);
+		return bubble;
 	}
 }
