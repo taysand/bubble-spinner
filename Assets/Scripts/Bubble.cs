@@ -13,7 +13,6 @@ public class Bubble : MonoBehaviour {
 	public BubbleColor color;
 	private HingeJoint2D joint;
 	public bool inCenter = false;
-	public bool leaving = false;
 	private bool original = false;
 
 	private bool inGroup = false;
@@ -34,26 +33,16 @@ public class Bubble : MonoBehaviour {
 		if (!inCenter) {
 			joint.enabled = false;
 		}
-	}
-
-	void Update () {
-		if (leaving) {
-			Leave ();
-		}
+		Game.AddToBubbleList(this);
 	}
 
 	public BubbleColor GetColor () {
 		return color;
 	}
 
-	public void SetToLeave() {
-		leaving = true;
-	}
-
-	private void Leave () {
+	public void Leave () {
 		GetComponent<CircleCollider2D> ().enabled = false;
 		GetComponent<HingeJoint2D> ().enabled = false;
-		leaving = false;
 		Destroy (gameObject, 3f); //TODO: object pool
 	}
 
@@ -85,7 +74,7 @@ public class Bubble : MonoBehaviour {
 			if (inCenter) {
 				Game.EndGame();
 			} else if (++bounceCount >= maxCount) {
-				SetToLeave();
+				Leave();
 				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
 				Game.LoseLife();
 			}
