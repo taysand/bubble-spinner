@@ -89,6 +89,8 @@ public class Bubble : MonoBehaviour {
 				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
 				Game.LoseLife();
 			}
+		} else if (other.gameObject.tag == "center") {
+			AddToMass();
 		}
 	}
 
