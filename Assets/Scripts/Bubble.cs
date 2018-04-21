@@ -55,7 +55,6 @@ public class Bubble : MonoBehaviour {
 		GetComponent<HingeJoint2D> ().enabled = false;
 		leaving = false;
 		Destroy (gameObject, 3f); //TODO: object pool
-		//TODO: points
 	}
 
 	public static float GetDiameter () {
@@ -83,12 +82,15 @@ public class Bubble : MonoBehaviour {
 				}
 			}
 		} else if (other.gameObject.tag == "wall") {
-			if (++bounceCount >= maxCount) {
+			if (inCenter) {
+				Game.EndGame();
+			} else if (++bounceCount >= maxCount) {
 				SetToLeave();
 				GetComponent<Rigidbody2D>().gravityScale = 2.5f;
 				Game.LoseLife();
 			}
-			Debug.Log(bounceCount);
+		} else if (other.gameObject.tag == "center") {
+			AddToMass();
 		}
 	}
 
