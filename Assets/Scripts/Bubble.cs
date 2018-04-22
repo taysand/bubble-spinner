@@ -34,6 +34,7 @@ public class Bubble : MonoBehaviour {
 			joint.enabled = false;
 		}
 		Game.AddToBubbleList (this);
+		GravityOn (false);
 	}
 
 	public BubbleColor GetColor () {
@@ -43,6 +44,7 @@ public class Bubble : MonoBehaviour {
 	public void Leave () {
 		GetComponent<CircleCollider2D> ().enabled = false;
 		GetComponent<HingeJoint2D> ().enabled = false;
+		GravityOn (true);
 		Destroy (gameObject, 3f); //TODO: object pool
 	}
 
@@ -112,9 +114,17 @@ public class Bubble : MonoBehaviour {
 		return original;
 	}
 
-	public static Bubble NewBubble (float x, float y) {
+	public static Bubble NewBubble (Vector2 position) {
 		Bubble bubble = Instantiate (Game.bubblePrefab) as Bubble;
-		bubble.transform.position = new Vector3 (x, y, 0);
+		bubble.transform.position = new Vector3 (position.x, position.y, 0);
 		return bubble;
+	}
+
+	public void GravityOn (bool value) {
+		float gravityScale = 0;
+		if (value) {
+			gravityScale = 1f;
+		}
+		GetComponent<Rigidbody2D> ().gravityScale = gravityScale;
 	}
 }
